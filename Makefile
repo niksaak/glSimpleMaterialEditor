@@ -20,7 +20,7 @@ LDFLAGS := -Wall -lglfw -lGL
 all: $(EXE)
 
 $(EXE): $(OBJECTS)
-	$(CXX) -o $@ $? $(LDFLAGS) 
+	$(CXX) -o $@ $+ $(LDFLAGS)
 
 %.o: %.cpp
 	$(CXX) -o $@ $< $(CXXFLAGS)
