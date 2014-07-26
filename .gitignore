@@ -19,3 +19,14 @@
 *.exe
 *.out
 *.app
+
+# MSVS specific temporary files
+*.suo
+*.user
+*.sdf
+
+# the project specfic
+proj.win32/[dD]ebug/**
+proj.win32/[rR]elease/**
+proj.win32/bin/**
+
