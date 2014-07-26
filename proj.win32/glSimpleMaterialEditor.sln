@@ -1,0 +1,29 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "glSimpleMaterialEditor", "glSimpleMaterialEditor.vcxproj", "{7BAFE1F2-29C2-44FC-8AC6-AE6A4A356D8E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{815E7120-3AC4-4602-B905-D7D813AB9574} = {815E7120-3AC4-4602-B905-D7D813AB9574}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "glfw", "..\..\glfw\proj.win32\glfw.vcxproj", "{815E7120-3AC4-4602-B905-D7D813AB9574}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7BAFE1F2-29C2-44FC-8AC6-AE6A4A356D8E}.Debug|Win32.ActiveCfg = Debug|Win32
+		{7BAFE1F2-29C2-44FC-8AC6-AE6A4A356D8E}.Debug|Win32.Build.0 = Debug|Win32
+		{7BAFE1F2-29C2-44FC-8AC6-AE6A4A356D8E}.Release|Win32.ActiveCfg = Release|Win32
+		{7BAFE1F2-29C2-44FC-8AC6-AE6A4A356D8E}.Release|Win32.Build.0 = Release|Win32
+		{815E7120-3AC4-4602-B905-D7D813AB9574}.Debug|Win32.ActiveCfg = Debug|Win32
+		{815E7120-3AC4-4602-B905-D7D813AB9574}.Debug|Win32.Build.0 = Debug|Win32
+		{815E7120-3AC4-4602-B905-D7D813AB9574}.Release|Win32.ActiveCfg = Release|Win32
+		{815E7120-3AC4-4602-B905-D7D813AB9574}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
