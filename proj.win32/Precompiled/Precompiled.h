@@ -8,7 +8,7 @@
 typedef std::string		String;
 
 #define GLFW_INCLUDE_GLU
-#include <glfw/glfw3.h>
+#include <GLFW/glfw3.h>
 
 #define __LOG(PREFIX,CONTENT)		\
 	std::cerr<< PREFIX<< CONTENT<< std::endl
