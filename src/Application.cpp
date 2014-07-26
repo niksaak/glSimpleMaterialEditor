@@ -61,6 +61,12 @@ Application::Application(const String& applicationName,
 			glfwSetKeyCallback(glfwWindow, onKeyCallback);
 
 			isInitialized_ = true;
+
+			auto err = glewInit();
+			if (err != GLEW_OK) {
+				LOG_ERROR("glewInit() failed.");
+				return;
+			}
 		}
 		else
 			LOG_ERROR("glfwCreateWindow("<< frameBufferWidth<< ", "<< frameBufferHeight<< ", \""<< applicationName<< "\", "<< (fullScreen ? "true" : "false")<< ") failed.");

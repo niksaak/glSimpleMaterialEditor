@@ -14,7 +14,7 @@ EXE := $(BIN_DIR)/$(NAME)
 
 CXX := clang++
 CXXFLAGS := -c -Wall -O2 -std=c++11 -I$(PROJ_DIR) -I$(PRECOMPILED_DIR) -I$(SOURCE_DIR)
-LDFLAGS := -Wall -lglfw -lGL
+LDFLAGS := -Wall -lglfw -lGL -lGLEW
 
 .PHONY: all
 all: $(EXE)
