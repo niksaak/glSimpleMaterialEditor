@@ -3,8 +3,6 @@
 
 int main()
 {
-// +vsync
-// +onWindowSizeChanged
 // +onMouseMove...
 // +onMouseButton...
 
@@ -14,21 +12,38 @@ int main()
 		{
 			// do nothing yet
 		};
-		GApplication->onKeyPressed = [&](int key)
+
+		GApplication->onWindowResize = [&](UInt width, UInt height)
+		{
+			glViewport(0, 0, width, height);
+
+			glMatrixMode(GL_PROJECTION);
+			glLoadIdentity();
+
+			const Float RATIO = static_cast<Float>(width) / static_cast<Float>(height);
+			glOrtho(-RATIO, RATIO, -1.f, 1.f, 1.f, -1.f);
+		};
+
+		GApplication->onKeyPressed = [&](Int key)
 		{
 			if (key == GLFW_KEY_ESCAPE)
 				GApplication->shutdown();
 		};
 
-		float t = 0.0f;
-		GApplication->onUpdate = [&](float dt)
+		Float t = 0.0f;
+		GApplication->onUpdate = [&](Float dt)
 		{
-			t += dt;
+			glMatrixMode(GL_MODELVIEW);
+			glLoadIdentity();
+
 			glRotatef(t * 50.f, 0.f, 0.f, 1.f);
+			t += dt;
 		};
 
 		GApplication->onRenderFrame = [&]()
 		{
+			glClear(GL_COLOR_BUFFER_BIT);
+
 			glBegin(GL_TRIANGLES);
 			glColor3f(1.f, 0.f, 0.f);
 			glVertex3f(-0.6f, -0.4f, 0.f);

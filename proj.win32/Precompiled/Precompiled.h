@@ -6,6 +6,11 @@
 #include <functional>
 
 typedef std::string		String;
+typedef	char			Char;
+typedef bool			Bool;
+typedef int				Int;
+typedef	unsigned int	UInt;
+typedef float			Float;
 
 #define GLFW_INCLUDE_GLU
 #include <glfw/glfw3.h>

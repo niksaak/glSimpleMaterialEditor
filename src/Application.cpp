@@ -5,12 +5,13 @@ Application::Accessor	GApplication;
 
 //----------------------------------------------------------------------------
 // class Application::Accessor
-bool Application::Accessor::Initialize(const String& applicationName,
-									   size_t frameBufferWidth,
-									   size_t frameBufferHeight,
-									   bool fullScreen /*= false*/)
+Bool Application::Accessor::Initialize(const String& applicationName,
+									   UInt frameBufferWidth,
+									   UInt frameBufferHeight,
+									   Bool fullScreen /*= false*/,
+									   Bool vSync /*= false*/)
 {
-	application_.reset(new Application(applicationName, frameBufferWidth, frameBufferHeight, fullScreen));
+	application_.reset(new Application(applicationName, frameBufferWidth, frameBufferHeight, fullScreen, vSync));
 	return application_->isInitialized();
 }
 
@@ -24,12 +25,12 @@ const PApplication& Application::Accessor::operator->()
 namespace {
 	GLFWwindow* glfwWindow = nullptr;
 
-	void onErrorCallback(int error, const char* description)
+	void onErrorCallback(Int error, const Char* description)
 	{
 		LOG_ERROR(description);
 	}
 
-	void onKeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
+	void onKeyCallback(GLFWwindow* window, Int key, Int scancode, Int action, Int mods)
 	{
 		if (action == GLFW_PRESS || action == GLFW_REPEAT)
 		{
@@ -42,28 +43,39 @@ namespace {
 				GApplication->onKeyReleased(key);
 		}
 	}
+
+	void onFrameBufferResize(GLFWwindow* window, Int width, Int height)
+	{
+		if (GApplication->onWindowResize)
+			GApplication->onWindowResize(width, height);
+	}
 }
 
 Application::Application(const String& applicationName,
-						 size_t frameBufferWidth,
-						 size_t frameBufferHeight,
-						 bool fullScreen)
+						 UInt frameBufferWidth,
+						 UInt frameBufferHeight,
+						 Bool fullScreen,
+						 Bool vSync)
 : isInitialized_(false)
 {
 	glfwSetErrorCallback(onErrorCallback);
 	if (glfwInit())
 	{
-		glfwWindow = glfwCreateWindow(frameBufferWidth, frameBufferHeight, applicationName.c_str(), (fullScreen ? glfwGetPrimaryMonitor() : NULL), NULL);
+		glfwWindow = glfwCreateWindow(frameBufferWidth, frameBufferHeight, applicationName.c_str(), (fullScreen ? glfwGetPrimaryMonitor() : nullptr), nullptr);
 		if (glfwWindow != nullptr)
 		{
 			glfwMakeContextCurrent(glfwWindow);
 
+			if (vSync)
+				glfwSwapInterval(1);
+
 			glfwSetKeyCallback(glfwWindow, onKeyCallback);
+			glfwSetFramebufferSizeCallback(glfwWindow, onFrameBufferResize);
 
 			isInitialized_ = true;
 		}
 		else
-			LOG_ERROR("glfwCreateWindow("<< frameBufferWidth<< ", "<< frameBufferHeight<< ", \""<< applicationName<< "\", "<< (fullScreen ? "true" : "false")<< ") failed.");
+			LOG_ERROR("glfwCreateWindow("<< frameBufferWidth<< ", "<< frameBufferHeight<< ", \""<< applicationName<< "\", "<< (fullScreen ? "true" : "false")<< ", "<< (vSync ? "true" : "false")<< ") failed.");
 	}
 	else
 		LOG_ERROR("glfwInit() failed.");
@@ -78,7 +90,7 @@ Application::~Application()
 	}
 }
 
-bool Application::isInitialized() const
+Bool Application::isInitialized() const
 {
 	return isInitialized_;
 }
@@ -88,35 +100,26 @@ void Application::shutdown()
 	glfwSetWindowShouldClose(glfwWindow, GL_TRUE);
 }
 
-int Application::run()
+Int Application::run()
 {
 	if (isInitialized_)
 	{
-		float previousTime = static_cast<float>(glfwGetTime());
+		if (onWindowResize)
+		{
+			Int width, height;
+			glfwGetFramebufferSize(glfwWindow, &width, &height);
+
+			onWindowResize(width, height);
+		}
 
 		if (onInitialize)
 			onInitialize();
 
+		Float previousTime = static_cast<Float>(glfwGetTime());
+
 		while (!glfwWindowShouldClose(glfwWindow))
 		{
-			int width, height;
-			glfwGetFramebufferSize(glfwWindow, &width, &height);
-
-			glViewport(0, 0, width, height);
-			glClear(GL_COLOR_BUFFER_BIT);
-
-
-			glMatrixMode(GL_PROJECTION);
-			glLoadIdentity();
-
-			const float RATIO = static_cast<float>(width) / static_cast<float>(height);
-			glOrtho(-RATIO, RATIO, -1.f, 1.f, 1.f, -1.f);
-
-
-			glMatrixMode(GL_MODELVIEW);
-			glLoadIdentity();
-
-			const float dt = static_cast<float>(glfwGetTime()) - previousTime;
+			const Float dt = static_cast<Float>(glfwGetTime()) - previousTime;
 			previousTime += dt;
 
 			if (onUpdate)
