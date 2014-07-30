@@ -1,8 +1,8 @@
 #pragma once
 
+//----------------------------------------------------------------------------
 DEFINE_POINTER(Application) PApplication;
-
-class Application
+class Application : public NonCopyable
 {
 	bool	isInitialized_;
 
@@ -24,11 +24,12 @@ public:
 						Bool fullScreen = false,
 						Bool vSync = false);
 		const PApplication& operator->();
+		operator bool () const;
 	};
 	~Application();
-	Bool isInitialized() const;
-	Int run();
-	void shutdown();
+	Bool	isInitialized() const;
+	Int		run();
+	void	shutdown();
 
 	std::function<void()>							onInitialize;
 	std::function<void(UInt width, UInt height)>	onWindowResize;
@@ -38,4 +39,5 @@ public:
 	std::function<void(Int Key)>					onKeyReleased;
 };
 
+//----------------------------------------------------------------------------
 extern Application::Accessor	GApplication;

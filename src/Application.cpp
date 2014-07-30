@@ -20,6 +20,11 @@ const PApplication& Application::Accessor::operator->()
 	return application_;
 }
 
+Application::Accessor::operator bool() const
+{
+	return application_;
+}
+
 //----------------------------------------------------------------------------
 // class Application
 namespace {
@@ -73,6 +78,9 @@ Application::Application(const String& applicationName,
 			glfwSetFramebufferSizeCallback(glfwWindow, onFrameBufferResize);
 
 			isInitialized_ = true;
+
+			if (glewInit() != GLEW_OK)
+				LOG_ERROR("glewInit: Initalization failed!");
 		}
 		else
 			LOG_ERROR("glfwCreateWindow("<< frameBufferWidth<< ", "<< frameBufferHeight<< ", \""<< applicationName<< "\", "<< (fullScreen ? "true" : "false")<< ", "<< (vSync ? "true" : "false")<< ") failed.");

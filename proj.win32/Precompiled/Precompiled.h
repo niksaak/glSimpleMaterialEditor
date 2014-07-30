@@ -12,6 +12,8 @@ typedef int				Int;
 typedef	unsigned int	UInt;
 typedef float			Float;
 
+#define GLEW_STATIC
+#include <GL/glew.h>
 #define GLFW_INCLUDE_GLU
 #include <glfw/glfw3.h>
 
@@ -25,3 +27,12 @@ typedef float			Float;
 #define DEFINE_POINTER(CLASSNAME)	\
 	class CLASSNAME;				\
 	typedef std::shared_ptr<CLASSNAME>
+
+
+class NonCopyable
+{
+	NonCopyable(const NonCopyable&);
+	NonCopyable& operator= (const NonCopyable&);
+public:
+	NonCopyable() {}
+};
