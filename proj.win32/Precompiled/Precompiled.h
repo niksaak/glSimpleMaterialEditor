@@ -4,13 +4,17 @@
 #include <string>
 #include <memory>
 #include <functional>
+#include <fstream>
 
-typedef std::string		String;
 typedef	char			Char;
 typedef bool			Bool;
 typedef int				Int;
 typedef	unsigned int	UInt;
 typedef float			Float;
+
+typedef std::string		String;
+typedef std::ifstream	InputFileStream;
+
 
 #define GLEW_STATIC
 #include <GL/glew.h>
@@ -36,3 +40,9 @@ class NonCopyable
 public:
 	NonCopyable() {}
 };
+
+
+#define ENUM(ENUM_TYPE_NAME, ...)	\
+struct ENUM_TYPE_NAME { enum Enum {	\
+	__VA_ARGS__						\
+};}

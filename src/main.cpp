@@ -1,6 +1,7 @@
 #include <Precompiled.h>
+#include "Helpers.h"
 #include "Application.h"
-#include "Program.h"
+#include "ProgramARB.h"
 
 int main()
 {
@@ -9,52 +10,17 @@ int main()
 
 	if (GApplication.Initialize("glSimpleMaterialEditor", 800, 600))
 	{
-		PProgram vp = Program::Create(VertexProgram, ""
-			"!!ARBvp1.0																		\n\
-			# This is our Hello World vertex shader											\n\
-			# notice how comments are preceded by '#'										\n\
-																							\n\
-			ATTRIB iPos = vertex.position;         # input position							\n\
-			ATTRIB iPrC = vertex.color.primary;    # input primary color					\n\
-																							\n\
-			OUTPUT oPos = result.position;         # output position						\n\
-			OUTPUT oPrC = result.color.primary;    # output primary color					\n\
-			OUTPUT oScC = result.color.secondary;  # output secondary color					\n\
-																							\n\
-			PARAM mvp[4] = { state.matrix.mvp };   # model-view * projection matrix			\n\
-																							\n\
-			TEMP tmp;                              # temporary register						\n\
-																							\n\
-			DP4 tmp.x, iPos, mvp[0];               # multiply input position by MVP			\n\
-			DP4 tmp.y, iPos, mvp[1];														\n\
-			DP4 tmp.z, iPos, mvp[2];														\n\
-			DP4 tmp.w, iPos, mvp[3];														\n\
-																							\n\
-			MOV oPos, tmp;                         # output clip-space coord				\n\
-																							\n\
-			MOV oPrC, iPrC;                        # copy primary color input to output		\n\
-																							\n\
-			RCP tmp.w, tmp.w;                      # tmp now contains 1/W instead of W		\n\
-			MUL tmp.xyz, tmp, tmp.w;               # tmp now contains persp-divided coords	\n\
-			MAD oScC, tmp, 0.5, 0.5;               # map from [-1,1] to [0,1] and output	\n\
-			END"
-		);
+		PProgramARB vp = ProgramARB::Create(ProgramARB::Type::VertexProgram, LoadFileContent("assets/Default.vertexProgram"));
 		if (!vp->isValid())
 			LOG_ERROR("vp: "<< vp->getCompilationError());
+		else
+			LOG("OK: Vertex program has been sucessfully loaded.");
 
-		PProgram fp = Program::Create(FragmentProgram, ""
-			"!!ARBfp1.0																		\n\
-																							\n\
-			ATTRIB iPrC = fragment.color.primary;  # input primary color					\n\
-			ATTRIB iScC = fragment.color.secondary;# input secondary color					\n\
-																							\n\
-			OUTPUT oCol = result.color;            # output color							\n\
-																							\n\
-			MOV oCol, fragment.color.primary;												\n\
-			END"
-		);
+		PProgramARB fp = ProgramARB::Create(ProgramARB::Type::FragmentProgram, LoadFileContent("assets/Default.fragmentProgram"));
 		if (!fp->isValid())
 			LOG_ERROR("fp: "<< fp->getCompilationError());
+		else
+			LOG("OK: Fragment program has been sucessfully loaded.");
 
 		GApplication->onInitialize = [&]()
 		{

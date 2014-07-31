@@ -1,11 +1,11 @@
 #include <Precompiled.h>
-#include "Program.h"
+#include "ProgramARB.h"
 
 //----------------------------------------------------------------------------
 // class Program
 
-Program::Program(ProgramType type,
-				 const String& programSource)
+ProgramARB::ProgramARB(ProgramARB::Type::Enum type,
+					   const String& programSource)
 : id_(0)
 , type_(type)
 , compilationErrorPosition_(-1)
@@ -20,30 +20,30 @@ Program::Program(ProgramType type,
 	if (isValid())
 		glEnable(type_);
 }
-Program::~Program()
+ProgramARB::~ProgramARB()
 {
 	if (isValid())
 		glDisable(type_);
 	glDeleteProgramsARB(1, &id_);
 }
 
-PProgram Program::Create(ProgramType type,
-						 const String& programSource)
+PProgramARB ProgramARB::Create(ProgramARB::Type::Enum type,
+							   const String& programSource)
 {
-	return PProgram(new Program(type, programSource));
+	return PProgramARB(new ProgramARB(type, programSource));
 }
 
-ProgramType Program::type() const
+ProgramARB::Type::Enum ProgramARB::type() const
 {
 	return type_;
 }
 
-Bool Program::isValid() const
+Bool ProgramARB::isValid() const
 {
 	return compilationErrorPosition_ == -1;
 }
 
-const String& Program::getCompilationError() const
+const String& ProgramARB::getCompilationError() const
 {
 	return compilationError_;
 }
