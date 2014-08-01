@@ -12,13 +12,17 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\Application.cpp" />
+    <ClCompile Include="..\src\Helpers.cpp" />
     <ClCompile Include="..\src\main.cpp" />
+    <ClCompile Include="..\src\ProgramARB.cpp" />
     <ClCompile Include="Precompiled\Precompiled.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\Application.h" />
+    <ClInclude Include="..\src\Helpers.h" />
+    <ClInclude Include="..\src\ProgramARB.h" />
     <ClInclude Include="Precompiled\Precompiled.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -64,15 +68,18 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>Precompiled;../external;../../glfw/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>Precompiled;../external;../../glfw/include;../../glew/include</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>Precompiled.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\..\glfw\proj.win32\bin\$(Configuration).win32;..\external</AdditionalLibraryDirectories>
-      <AdditionalDependencies>OpenGL32.lib;Glu32.lib;glfw.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\glfw\proj.win32\bin\$(Configuration).win32;..\..\glew\build\vc10\bin\$(Configuration).win32;..\external</AdditionalLibraryDirectories>
+      <AdditionalDependencies>OpenGL32.lib;Glu32.lib;glfw.lib;glew32s.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>if not exist bin\$(Configuration).win32\assets mklink /J bin\$(Configuration).win32\assets ..\assets</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -83,16 +90,19 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>Precompiled;../external;../../glfw/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>Precompiled;../external;../../glfw/include;../../glew/include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>..\..\glfw\proj.win32\bin\$(Configuration).win32;..\external</AdditionalLibraryDirectories>
-      <AdditionalDependencies>OpenGL32.lib;Glu32.lib;glfw.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\glfw\proj.win32\bin\$(Configuration).win32;..\..\glew\build\vc10\bin\$(Configuration).win32;..\external</AdditionalLibraryDirectories>
+      <AdditionalDependencies>OpenGL32.lib;Glu32.lib;glfw.lib;glew32s.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>if not exist bin\$(Configuration).win32\assets mklink /J bin\$(Configuration).win32\assets ..\assets</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

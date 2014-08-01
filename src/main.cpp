@@ -1,103 +1,69 @@
 #include <Precompiled.h>
+#include "Helpers.h"
 #include "Application.h"
-
-const int SHADER_INFO_LOG_MAXIMUM_LENGTH = 4096;
-
-// GLSL 1.2
-const char* vertShader = R"(
-#version 120
-void main() {
-	gl_Position = ftransform();
-}
-)";
-
-const char* fragShader = R"(
-#version 120
-void main() {
-	gl_FragColor = vec4(0.2, 1.0, 0.2, 1.0);
-}
-)";
-
-// Shader setup functions. To be merged into the Application class.
-
-char shaderInfoLog[SHADER_INFO_LOG_MAXIMUM_LENGTH];
-
-GLenum compileShaderObject(const char* source, GLenum kind) {
-	auto shader = glCreateShader(kind);
-	int status;
-	glShaderSource(shader, 1, &source, NULL);
-	glCompileShader(shader);
-	glGetShaderiv(shader, GL_COMPILE_STATUS, &status);
-	if (status != GL_TRUE) {
-		auto kindString =
-			(kind == GL_VERTEX_SHADER) ? "vertex" :
-			(kind == GL_FRAGMENT_SHADER) ? "fragment" :
-			"unknown";
-		glGetShaderInfoLog(shader, SHADER_INFO_LOG_MAXIMUM_LENGTH, NULL, shaderInfoLog);
-		LOG_ERROR("compiling of the "<< kindString <<" shader object failed:\n  "<< shaderInfoLog);
-	}
-	return shader;
-}
-
-GLenum initShaders(void) {
-	int linkStatus;
-
-	// create handles for shader objects
-	auto vert = compileShaderObject(vertShader, GL_VERTEX_SHADER);
-	auto frag = compileShaderObject(fragShader, GL_FRAGMENT_SHADER);
-
-	// create a handle for shading program
-	auto program = glCreateProgram();
-
-	// attach shader objects
-	glAttachShader(program, vert);
-	glAttachShader(program, frag);
-
-	// link shader objects into a program
-	glLinkProgram(program);
-	glGetProgramiv(program, GL_LINK_STATUS, &linkStatus);
-	if (linkStatus != GL_TRUE) {
-		glGetProgramInfoLog(program, SHADER_INFO_LOG_MAXIMUM_LENGTH, NULL, shaderInfoLog);
-		LOG_ERROR("linking of the shader program failed:\n  "<< shaderInfoLog);
-	}
-
-	// use freshly compiled program for rendering
-	glUseProgram(program);
-
-	return program;
-}
+#include "ProgramARB.h"
 
 int main()
 {
-// +vsync
-// +onWindowSizeChanged
 // +onMouseMove...
 // +onMouseButton...
 
 	if (GApplication.Initialize("glSimpleMaterialEditor", 800, 600))
 	{
+		PProgramARB vp = ProgramARB::Create(ProgramARB::Type::VertexProgram, LoadFileContent("assets/Default.vertexProgram"));
+		if (!vp->isValid())
+			LOG_ERROR("vp: "<< vp->getCompilationError());
+		else
+			LOG("OK: Vertex program has been sucessfully loaded.");
+
+		PProgramARB fp = ProgramARB::Create(ProgramARB::Type::FragmentProgram, LoadFileContent("assets/Default.fragmentProgram"));
+		if (!fp->isValid())
+			LOG_ERROR("fp: "<< fp->getCompilationError());
+		else
+			LOG("OK: Fragment program has been sucessfully loaded.");
+
 		GApplication->onInitialize = [&]()
 		{
-			initShaders();
+			// do nothing yet
 		};
-		GApplication->onKeyPressed = [&](int key)
+
+		GApplication->onWindowResize = [&](UInt width, UInt height)
+		{
+			glViewport(0, 0, width, height);
+
+			glMatrixMode(GL_PROJECTION);
+			glLoadIdentity();
+
+			const Float RATIO = static_cast<Float>(width) / static_cast<Float>(height);
+			glOrtho(-RATIO, RATIO, -1.f, 1.f, 1.f, -1.f);
+		};
+
+		GApplication->onKeyPressed = [&](Int key)
 		{
 			if (key == GLFW_KEY_ESCAPE)
 				GApplication->shutdown();
 		};
 
-		float t = 0.0f;
-		GApplication->onUpdate = [&](float dt)
+		Float t = 0.0f;
+		GApplication->onUpdate = [&](Float dt)
 		{
-			t += dt;
+			glMatrixMode(GL_MODELVIEW);
+			glLoadIdentity();
+
 			glRotatef(t * 50.f, 0.f, 0.f, 1.f);
+			t += dt;
 		};
 
 		GApplication->onRenderFrame = [&]()
 		{
+			glClear(GL_COLOR_BUFFER_BIT);
+
 			glBegin(GL_TRIANGLES);
+			glColor3f(1.f, 0.f, 0.f);
 			glVertex3f(-0.6f, -0.4f, 0.f);
+			glColor3f(0.f, 1.f, 0.f);
 			glVertex3f(0.6f, -0.4f, 0.f);
+			glColor3f(0.f, 0.f, 1.f);
 			glVertex3f(0.f, 0.6f, 0.f);
 			glEnd();
 		};

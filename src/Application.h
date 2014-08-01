@@ -1,15 +1,16 @@
 #pragma once
 
+//----------------------------------------------------------------------------
 DEFINE_POINTER(Application) PApplication;
-
-class Application
+class Application : public NonCopyable
 {
 	bool	isInitialized_;
 
 	Application(const String& applicationName,
-				size_t frameBufferWidth,
-				size_t frameBufferHeight,
-				bool fullScreen);
+				UInt frameBufferWidth,
+				UInt frameBufferHeight,
+				Bool fullScreen,
+				Bool vSync);
 
 	friend class Accessor;
 public:
@@ -18,21 +19,25 @@ public:
 		PApplication application_;
 	public:
 		bool Initialize(const String& applicationName,
-						size_t frameBufferWidth,
-						size_t frameBufferHeight,
-						bool fullScreen = false);
+						UInt frameBufferWidth,
+						UInt frameBufferHeight,
+						Bool fullScreen = false,
+						Bool vSync = false);
 		const PApplication& operator->();
+		operator bool () const;
 	};
 	~Application();
-	bool isInitialized() const;
-	int run();
-	void shutdown();
+	Bool	isInitialized() const;
+	Int		run();
+	void	shutdown();
 
-	std::function<void()>			onInitialize;
-	std::function<void(float dt)>	onUpdate;
-	std::function<void()>			onRenderFrame;
-	std::function<void(int Key)>	onKeyPressed;
-	std::function<void(int Key)>	onKeyReleased;
+	std::function<void()>							onInitialize;
+	std::function<void(UInt width, UInt height)>	onWindowResize;
+	std::function<void(Float dt)>					onUpdate;
+	std::function<void()>							onRenderFrame;
+	std::function<void(Int Key)>					onKeyPressed;
+	std::function<void(Int Key)>					onKeyReleased;
 };
 
+//----------------------------------------------------------------------------
 extern Application::Accessor	GApplication;

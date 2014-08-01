@@ -4,11 +4,20 @@
 #include <string>
 #include <memory>
 #include <functional>
+#include <fstream>
+
+typedef	char			Char;
+typedef bool			Bool;
+typedef int				Int;
+typedef	unsigned int	UInt;
+typedef float			Float;
 
 typedef std::string		String;
+typedef std::ifstream	InputFileStream;
 
+
+#define GLEW_STATIC
 #include <GL/glew.h>
-
 #define GLFW_INCLUDE_GLU
 #include <GLFW/glfw3.h>
 
@@ -22,3 +31,18 @@ typedef std::string		String;
 #define DEFINE_POINTER(CLASSNAME)	\
 	class CLASSNAME;				\
 	typedef std::shared_ptr<CLASSNAME>
+
+
+class NonCopyable
+{
+	NonCopyable(const NonCopyable&);
+	NonCopyable& operator= (const NonCopyable&);
+public:
+	NonCopyable() {}
+};
+
+
+#define ENUM(ENUM_TYPE_NAME, ...)	\
+struct ENUM_TYPE_NAME { enum Enum {	\
+	__VA_ARGS__						\
+};}

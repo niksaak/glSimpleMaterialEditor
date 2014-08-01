@@ -29,6 +29,7 @@
 proj.win32/[dD]ebug/**
 proj.win32/[rR]elease/**
 proj.win32/bin/**
+proj.win32/ipch/**
 
 /bin/*
 

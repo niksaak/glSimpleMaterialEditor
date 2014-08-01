@@ -5,17 +5,36 @@
     <ClCompile Include="Precompiled\Precompiled.cpp">
       <Filter>Precompiled</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\Application.cpp" />
+    <ClCompile Include="..\src\Application.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Helpers.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ProgramARB.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Precompiled">
       <UniqueIdentifier>{4fafbefb-9ef0-451b-ba19-6feb1c0f6a51}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{c9d6c16d-4f76-4ea0-92a1-7857c3139fd8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Precompiled\Precompiled.h">
       <Filter>Precompiled</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\Application.h" />
+    <ClInclude Include="..\src\Helpers.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Application.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ProgramARB.h">
+      <Filter>src</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
