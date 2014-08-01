@@ -6,7 +6,6 @@ PRECOMPILED_DIR := $(PROJ_DIR)/Precompiled
 SOURCE_DIR := src
 
 SOURCES := $(wildcard $(SOURCE_DIR)/*.cpp)
-SOURCES += $(wildcard $(PRECOMPILED_DIR)/*.cpp)
 
 OBJECTS := $(SOURCES:.cpp=.o)
 
