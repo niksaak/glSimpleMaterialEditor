@@ -14,6 +14,11 @@ private:
 	UInt		id_;
 	Type::Enum	type_;
 	Int			compilationErrorPosition_;
+	Bool		isUnderNativeLimits_;
+	Int			instructionCount_;
+	Int			nativeInstructionCount_;
+	Int			maxInstructionCount_;
+	Int			maxNativeInstructionCount_;
 	String		compilationError_;
 
 	ProgramARB(Type::Enum type,
@@ -24,5 +29,10 @@ public:
 	~ProgramARB();
 	Type::Enum		type() const;
 	Bool			isValid() const;
+	Bool			isUnderNativeLimits() const;
+	Int				instructionCount() const;
+	Int				nativeInstructionCount() const;
+	Int				maxInstructionCount() const;
+	Int				maxNativeInstructionCount() const;
 	const String&	getCompilationError() const;
 };

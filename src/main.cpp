@@ -14,13 +14,13 @@ int main()
 		if (!vp->isValid())
 			LOG_ERROR("vp: "<< vp->getCompilationError());
 		else
-			LOG("OK: Vertex program has been sucessfully loaded.");
+			LOG("OK: Vertex program ("<< vp->instructionCount()<< ":"<< vp->nativeInstructionCount()<< "/"<< vp->maxInstructionCount()<< ":"<< vp->maxNativeInstructionCount()<< " instructions) has been sucessfully loaded.");
 
 		PProgramARB fp = ProgramARB::Create(ProgramARB::Type::FragmentProgram, LoadFileContent("assets/Default.fragmentProgram"));
 		if (!fp->isValid())
 			LOG_ERROR("fp: "<< fp->getCompilationError());
 		else
-			LOG("OK: Fragment program has been sucessfully loaded.");
+			LOG("OK: Fragment program ("<< fp->instructionCount()<< ":"<< fp->nativeInstructionCount()<< "/"<< fp->maxInstructionCount()<< ":"<< fp->maxNativeInstructionCount()<< " instructions) has been sucessfully loaded.");
 
 		GApplication->onInitialize = [&]()
 		{

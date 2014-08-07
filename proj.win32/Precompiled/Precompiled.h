@@ -25,6 +25,8 @@ typedef std::ifstream	InputFileStream;
 	std::cerr<< PREFIX<< CONTENT<< std::endl
 #define LOG(CONTENT)				\
 	__LOG("", CONTENT)
+#define LOG_WARNING(CONTENT)		\
+	__LOG("Warning: ", CONTENT)
 #define LOG_ERROR(CONTENT)			\
 	__LOG("ERROR: ", CONTENT)
 
