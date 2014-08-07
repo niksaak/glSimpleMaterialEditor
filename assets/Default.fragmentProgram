@@ -1,9 +1,5 @@
 !!ARBfp1.0
 
-ATTRIB iPrC = fragment.color.primary;		# input primary color
-ATTRIB iScC = fragment.color.secondary;		# input secondary color
+MOV result.color, fragment.color.primary;
 
-OUTPUT oCol = result.color;					# output color
-
-MOV oCol, fragment.color.primary;
 END
