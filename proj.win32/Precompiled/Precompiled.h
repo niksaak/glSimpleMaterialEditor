@@ -5,6 +5,8 @@
 #include <memory>
 #include <functional>
 #include <fstream>
+#include <map>
+#include <cmath>
 
 typedef	char			Char;
 typedef bool			Bool;
@@ -30,9 +32,15 @@ typedef std::ifstream	InputFileStream;
 #define LOG_ERROR(CONTENT)			\
 	__LOG("ERROR: ", CONTENT)
 
+#define POINTER(CLASSNAME)			\
+	std::shared_ptr<CLASSNAME >
+
 #define DEFINE_POINTER(CLASSNAME)	\
+	typedef POINTER(CLASSNAME)
+
+#define DEFINE_CLASS_POINTER(CLASSNAME)	\
 	class CLASSNAME;				\
-	typedef std::shared_ptr<CLASSNAME>
+	DEFINE_POINTER(CLASSNAME)
 
 
 class NonCopyable

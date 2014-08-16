@@ -11,8 +11,14 @@
     <ClCompile Include="..\src\Helpers.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\ProgramARB.cpp">
-      <Filter>src</Filter>
+    <ClCompile Include="..\src\ProgramARB\AbstractProgramARB.cpp">
+      <Filter>src\ProgramARB</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ProgramARB\ProgramParameters.cpp">
+      <Filter>src\ProgramARB</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ProgramARB\ProgramARB.cpp">
+      <Filter>src\ProgramARB</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -21,6 +27,9 @@
     </Filter>
     <Filter Include="src">
       <UniqueIdentifier>{c9d6c16d-4f76-4ea0-92a1-7857c3139fd8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\ProgramARB">
+      <UniqueIdentifier>{96de33b4-d2f3-48c4-a354-13022a5a25cc}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -33,8 +42,25 @@
     <ClInclude Include="..\src\Application.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\ProgramARB.h">
-      <Filter>src</Filter>
+    <ClInclude Include="..\src\ProgramARB\AbstractProgramARB.h">
+      <Filter>src\ProgramARB</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\ProgramARB\ProgramARB.h">
+      <Filter>src\ProgramARB</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ProgramARB\ProgramParameters.h">
+      <Filter>src\ProgramARB</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ProgramARB\ProgramType.h">
+      <Filter>src\ProgramARB</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ProgramARB\ProgramARB">
+      <Filter>src\ProgramARB</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\src\ProgramARB\ProgramARB.inl">
+      <Filter>src\ProgramARB</Filter>
+    </None>
   </ItemGroup>
 </Project>

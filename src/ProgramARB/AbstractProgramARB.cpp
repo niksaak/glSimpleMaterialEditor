@@ -1,14 +1,14 @@
 #include <Precompiled.h>
-#include "ProgramARB.h"
+#include "ProgramType.h"
+#include "AbstractProgramARB.h"
 
 //----------------------------------------------------------------------------
-// class Program
-
-ProgramARB::ProgramARB(ProgramARB::Type::Enum type,
-					   const String& programSource)
+// class AbstractProgramARB (abstract)
+AbstractProgramARB::AbstractProgramARB(ProgramARBType::Enum type,
+									   const String& programSource)
 : id_(0)
 , type_(type)
-, compilationErrorPosition_(-1)
+, compilationErrorPosition_(0)
 , isUnderNativeLimits_(false)
 , instructionCount_(0)
 , nativeInstructionCount_(0)
@@ -36,56 +36,50 @@ ProgramARB::ProgramARB(ProgramARB::Type::Enum type,
 		glEnable(type_);
 
 		if (!isUnderNativeLimits())
-			LOG_WARNING((type_ == ProgramARB::Type::VertexProgram ? "Vertex" : "Fragment")<< " program exceeds the native hardware limits!");
+			LOG_WARNING((type_ == ProgramARBType::VertexProgramARB ? "Vertex" : "Fragment")<< " program exceeds the native hardware limits!");
 	}
 }
-ProgramARB::~ProgramARB()
+AbstractProgramARB::~AbstractProgramARB()
 {
 	if (isValid())
 		glDisable(type_);
 	glDeleteProgramsARB(1, &id_);
 }
 
-PProgramARB ProgramARB::Create(ProgramARB::Type::Enum type,
-							   const String& programSource)
-{
-	return PProgramARB(new ProgramARB(type, programSource));
-}
-
-ProgramARB::Type::Enum ProgramARB::type() const
+ProgramARBType::Enum AbstractProgramARB::type() const
 {
 	return type_;
 }
 
-Bool ProgramARB::isValid() const
+Bool AbstractProgramARB::isValid() const
 {
 	return compilationErrorPosition_ == -1;
 }
 
-Bool ProgramARB::isUnderNativeLimits() const
+Bool AbstractProgramARB::isUnderNativeLimits() const
 {
 	return isUnderNativeLimits_ == 1;
 }
 
-Int ProgramARB::instructionCount() const
+Int AbstractProgramARB::instructionCount() const
 {
 	return instructionCount_;
 }
-Int ProgramARB::nativeInstructionCount() const
+Int AbstractProgramARB::nativeInstructionCount() const
 {
 	return nativeInstructionCount_;
 }
 
-Int	ProgramARB::maxInstructionCount() const
+Int	AbstractProgramARB::maxInstructionCount() const
 {
 	return maxInstructionCount_;
 }
-Int	ProgramARB::maxNativeInstructionCount() const
+Int	AbstractProgramARB::maxNativeInstructionCount() const
 {
 	return maxNativeInstructionCount_;
 }
 
-const String& ProgramARB::getCompilationError() const
+const String& AbstractProgramARB::getCompilationError() const
 {
 	return compilationError_;
 }

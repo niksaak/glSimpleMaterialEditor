@@ -1,0 +1,9 @@
+!!ARBvp1.0
+OPTION ARB_position_invariant;
+
+TEMP color;
+MOV color, vertex.color.primary;
+ADD color, color, program.env[0];
+ADD result.color.primary, color, program.local[0];
+
+END

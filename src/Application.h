@@ -1,7 +1,7 @@
 #pragma once
 
 //----------------------------------------------------------------------------
-DEFINE_POINTER(Application) PApplication;
+DEFINE_CLASS_POINTER(Application) PApplication;
 class Application : public NonCopyable
 {
 	bool	isInitialized_;

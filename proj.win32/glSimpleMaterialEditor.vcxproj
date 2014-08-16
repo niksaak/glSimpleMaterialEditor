@@ -14,7 +14,9 @@
     <ClCompile Include="..\src\Application.cpp" />
     <ClCompile Include="..\src\Helpers.cpp" />
     <ClCompile Include="..\src\main.cpp" />
-    <ClCompile Include="..\src\ProgramARB.cpp" />
+    <ClCompile Include="..\src\ProgramARB\AbstractProgramARB.cpp" />
+    <ClCompile Include="..\src\ProgramARB\ProgramARB.cpp" />
+    <ClCompile Include="..\src\ProgramARB\ProgramParameters.cpp" />
     <ClCompile Include="Precompiled\Precompiled.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
     </ClCompile>
@@ -22,8 +24,17 @@
   <ItemGroup>
     <ClInclude Include="..\src\Application.h" />
     <ClInclude Include="..\src\Helpers.h" />
-    <ClInclude Include="..\src\ProgramARB.h" />
+    <ClInclude Include="..\src\ProgramARB\AbstractProgramARB.h" />
+    <ClInclude Include="..\src\ProgramARB\ProgramARB.h" />
+    <ClInclude Include="..\src\ProgramARB\ProgramParameters.h" />
+    <ClInclude Include="..\src\ProgramARB\ProgramType.h" />
     <ClInclude Include="Precompiled\Precompiled.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\src\ProgramARB\ProgramARB">
+      <FileType>Document</FileType>
+    </ClInclude>
+    <None Include="..\src\ProgramARB\ProgramARB.inl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{7BAFE1F2-29C2-44FC-8AC6-AE6A4A356D8E}</ProjectGuid>
