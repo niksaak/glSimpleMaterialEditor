@@ -19,7 +19,6 @@ int main()
 			LOG("    Vertex program has the following parameters limits (env/local):"<< vp->env.maxParameterCount()<< "/"<< vp->local.maxParameterCount());
 			vp->env[0].setRGBA(0.0f, 0.0f, 0.0f, 1.0f);
 			vp->local[0].setScalar(0.0f);
-			vp->updateParameters();
 		}
 
 		PFragmentProgramARB fp = FragmentProgramARB::Create(LoadFileContent("assets/ParametersTest.fragmentProgram"));
@@ -29,17 +28,16 @@ int main()
 		{
 			LOG("OK: Fragment program ("<< fp->instructionCount()<< ":"<< fp->nativeInstructionCount()<< "/"<< fp->maxInstructionCount()<< ":"<< fp->maxNativeInstructionCount()<< " instructions) has been sucessfully loaded.");
 			LOG("    Fragment program has the following parameters limits (env/local):"<< fp->env.maxParameterCount()<< "/"<< fp->local.maxParameterCount());
-			fp->local[0].setScalar(1.0f);
-			fp->updateParameters();
+			fp->local[0].setScalar(0.0f);
 		}
 
-		LOG("Info:");
+		LOG("\nInfo:");
 		if (fp->isValid())
-			LOG(" - press '0' key to change local[0] parameter of the fragment program;");
+			LOG(" - hold '0' or '9' keys to smoothly blend between color and mono-color output made in the fragment program;");
 		if (vp->isValid())
 		{
-			LOG(" - hold  '1' key to change local[0] parameter of the vertex program;");
-			LOG(" - press '2' key to change env[0] parameter of the vertex program;");
+			LOG(" - hold  '1' key to change vertices color intesity in a harmonious way (sin);");
+			LOG(" - press '2' key to dim the green and blue components of vertices color;");
 		}
 
 		GApplication->onInitialize = [&]()
@@ -59,6 +57,8 @@ int main()
 		};
 
 		Float intensityTime = 0.0f;
+		Float monoBias = 0.0f;
+		const Float monoBlendStep = 0.1f;
 
 		GApplication->onKeyPressed = [&](Int key)
 		{
@@ -67,17 +67,18 @@ int main()
 
 			if (key == GLFW_KEY_0)
 			{
-				if (fp->local[0].r() != 1.0f)
-					fp->local[0].setScalar(1.0f);
-				else
-					fp->local[0].setRGBA(0.299f, 0.587f, 0.114f);
-				fp->updateParameters();
+				if (fp->local[0].scalar() < 1.0f)
+					fp->local[0].setScalar(fp->local[0].scalar() + monoBlendStep);
+			}
+			if (key == GLFW_KEY_9)
+			{
+				if (fp->local[0].scalar() > 0.0f)
+					fp->local[0].setScalar(fp->local[0].scalar() - monoBlendStep);
 			}
 			if (key == GLFW_KEY_1)
 			{
 				intensityTime += 3.1415f/24.0f;
 				vp->local[0].setScalar(std::sinf(intensityTime));
-				vp->updateParameters();
 			}
 			if (key == GLFW_KEY_2)
 			{
@@ -85,7 +86,6 @@ int main()
 					vp->env[0].setRGBA(0.0f, 0.0f, 0.0f, 0.0f);
 				else
 					vp->env[0].setRGBA(0.0f, -0.5f, -0.5f, 1.0f);
-				vp->updateParameters();
 			}
 		};
 
@@ -97,6 +97,9 @@ int main()
 
 			glRotatef(t * 50.f, 0.f, 0.f, 1.f);
 			t += dt;
+
+			vp->updateParameters();
+			fp->updateParameters();
 		};
 
 		GApplication->onRenderFrame = [&]()

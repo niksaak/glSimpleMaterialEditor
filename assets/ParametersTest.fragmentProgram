@@ -1,5 +1,11 @@
 !!ARBfp1.0
 
-MUL result.color, fragment.color.primary, program.local[0];
+TEMP color, monoColor, colorToMonoDifference;
+MOV color, fragment.color.primary;					# original color
+
+DP3 monoColor, color, {0.299, 0.587, 0.114};		# mono-color
+
+SUB colorToMonoDifference, monoColor, color;
+MAD result.color, colorToMonoDifference, program.local[0], color;
 
 END
