@@ -4,7 +4,7 @@
 // abstract class
 class AbstractProgramARB : public NonCopyable
 {
-	UInt					id_;
+	ProgramARBId			id_;
 	ProgramARBType::Enum	type_;
 	Int						compilationErrorPosition_;
 	Bool					isUnderNativeLimits_;
