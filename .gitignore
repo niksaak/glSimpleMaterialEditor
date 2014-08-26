@@ -36,3 +36,4 @@ proj.win32/ipch/**
 # Dotfiles
 .*
 !.gitignore
+!.travis.yml
