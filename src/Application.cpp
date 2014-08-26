@@ -22,7 +22,7 @@ const PApplication& Application::Accessor::operator->()
 
 Application::Accessor::operator bool() const
 {
-	return application_;
+	return !!application_;
 }
 
 //----------------------------------------------------------------------------

@@ -78,7 +78,7 @@ int main()
 			if (key == GLFW_KEY_1)
 			{
 				intensityTime += 3.1415f/24.0f;
-				vp->local[0].setScalar(std::sinf(intensityTime));
+				vp->local[0].setScalar(sinf(intensityTime));
 			}
 			if (key == GLFW_KEY_2)
 			{
